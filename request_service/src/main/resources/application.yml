@@ -1,0 +1,41 @@
+micronaut:
+  application:
+    name: requestService
+  http:
+    client:
+      read-timeout: 300m
+  server:
+    port: ${PORT}
+  security:
+    enabled: true
+    token:
+      jwt:
+        enabled: true
+        signatures:
+          secret:
+            validation:
+              secret: EhVmMAl9EAFtlTCfQCDJDylZ80R1yyETZiGvTeZOCCvlcnd5QqWou65CHWqnveX
+
+dataSource:
+  url: ${MYSQL_URL}
+  dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  driverClassName: com.mysql.cj.jdbc.Driver
+  username: ${MYSQL_USER:dbuser}
+  password: ${MYSQL_PASSWORD:dbpassword}
+  pooled: true
+  maximumPoolSize: ${MYSQL_MAX_POOL:10}
+  minimumIdle: 5
+
+hibernate:
+  hbm2ddl:
+    auto: update
+  cache:
+    queries: false
+    use_second_level_cache: false
+    use_query_cache: false
+
+consul:
+  client:
+    registration:
+      enabled: true
+    defaultZone: "${CONSUL_HOST:localhost}:${CONSUL_PORT:8500}"
