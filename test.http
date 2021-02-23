@@ -1,0 +1,92 @@
+
+
+# 1) Register John as user.
+POST http://localhost:8080/uaa/register
+Content-Type: application/json
+
+{
+    "email":"test1@gmail.com",
+    "password":123,
+    "firstName": "John",
+    "lastName": "M",
+    "role": "User"
+}
+
+###
+
+# 2) Register Mike as Service_provider.
+POST http://localhost:8080/uaa/register
+Content-Type: application/json
+
+{
+    "email":"test2@gmail.com",
+    "password":123,
+    "firstName": "Mike",
+    "lastName": "M",
+    "role": "Service provider"
+}
+
+### 
+# 3) Login with John's credentials 
+POST http://localhost:8080/login
+Content-Type: application/json
+
+{
+    "username":"test1@gmail.com",
+    "password":123
+}
+
+
+
+###
+# 4) Login with Mike Credentials. 
+POST http://localhost:8080/login
+Content-Type: application/json
+
+{
+    "username":"test2@gmail.com",
+    "password":123
+}
+
+
+###
+# 5) Submit a Service Request. 
+POST http://localhost:8080/requests/api/submit
+Content-Type: application/json
+Authorization: Bearer <token> # replace <token> with the token that you received in Step 3
+
+{
+     "type":"Maintenance",
+     "title":"Maintenance",
+     "detail":"A Full Maintenance for my apartement",
+      "city":"yourCity"
+}
+
+###
+# 6) Submit Offer - Submit an offer for request with id 3
+POST http://localhost:8080/offers/api/submit
+Content-Type: application/json
+Authorization: Bearer <token> # replace <token> with the token that you received in Step 4
+
+{
+   "requestNumber": "3",
+    "message": "I'd like to take for $500 ",
+    "price": 500
+}
+
+###
+# 7) get the offers of a service request - with id 3
+GET http://localhost:8080/offers/api/offers/3
+Authorization: Bearer <token> # replace <token> with the token that you received in Step 3
+
+###
+# 8) Accept Offer - Accept offer with id 1 for request with id 3
+GET http://localhost:8080/requests/api/requests/accept/3/1
+Authorization: Bearer <token> # replace <token> with the token that you received in Step 3
+
+###
+# 9) Reject Offer - Reject offer with id 2 for request with id 3
+GET http://localhost:8080/requests/api/requests/reject/3/2
+Authorization: Bearer <token> # replace <token> with the token that you received in Step 3
+
+###
