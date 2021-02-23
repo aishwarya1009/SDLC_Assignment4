@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: com.orchestra
+testFramework: spock
+sourceLanguage: groovy
+buildTool: gradle
+features: [annotation-api, app-name, flyway, gradle, groovy, groovy-application, hibernate-gorm, hibernate-validator, http-client, jdbc-tomcat, logback, mysql, netty-server, readme, shade, spock, testcontainers, yaml]

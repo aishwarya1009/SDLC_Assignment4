@@ -1,0 +1,38 @@
+zuul:
+  sensitiveHeaders: Cookie,Set-Cookie
+  ignoredServices: '*'
+  ribbon:
+    eager-load:
+      enabled: true
+    ConnectTimeout: 10000
+    ReadTimeout: 10000
+
+---
+security:
+  oauth2:
+    resource:
+      jwt:
+        key-value: EhVmMAl9EAFtlTCfQCDJDylZ80R1yyETZiGvTeZOCCvlcnd5QqWou65CHWqnveX
+
+---
+spring:
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+
+hystrix:
+  metrics:
+    enabled: true
+---
+management:
+  endpoint:
+    hystrix:
+      stream:
+        enabled: true
+---
+management:
+  metrics:
+    binders:
+      hystrix:
+        enabled: true

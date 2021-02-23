@@ -1,0 +1,70 @@
+micronaut:
+  application:
+    name: userService
+  http:
+    client:
+      read-timeout: 300m
+  server:
+    port: ${PORT}
+  security:
+    enabled: true
+    endpoints:
+      login:
+        enabled: true
+      logout:
+        enabled: false
+      oauth:
+        enabled: false
+    authentication: bearer
+    token:
+      jwt:
+        generator:
+          access-token:
+            expiration: ${APPFACTORY_ACCESS_TOKEN_EXPIRATION:18000}  # 5 hours
+        cookie:
+          enabled: false
+        signatures:
+          secret:
+            generator:
+              secret: EhVmMAl9EAFtlTCfQCDJDylZ80R1yyETZiGvTeZOCCvlcnd5QqWou65CHWqnveX
+      writer:
+        header:
+          enabled: true    #6
+          headerName: "Authorization"  #7
+          prefix: "Bearer " #8
+        propagation:
+          enabled: true #9
+          service-id-regex: "offers-services|requests-services|gateway" #10
+
+dataSource:
+  url: ${MYSQL_URL}
+  dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  driverClassName: com.mysql.cj.jdbc.Driver
+  username: ${MYSQL_USER:dbuser}
+  password: ${MYSQL_PASSWORD:dbpassword}
+  pooled: true
+  maximumPoolSize: ${MYSQL_MAX_POOL:10}
+  minimumIdle: 5
+hibernate:
+  hbm2ddl:
+    auto: none # if making changes to the database schema, you should change this to update, run the app and copy the sql over to dbmigrations for Flyway, then change back to none
+  cache:
+    queries: false
+    use_second_level_cache: false
+    use_query_cache: false
+  show_sql: true
+
+flyway:
+  datasources:
+    default:
+      enabled: true
+      baseline-on-migrate: true
+      locations:
+        - classpath:dbmigrations
+        - classpath:com/orchestra/dbmigrationscript
+
+consul:
+  client:
+    registration:
+      enabled: true
+    defaultZone: "${CONSUL_HOST:localhost}:${CONSUL_PORT:8500}"
